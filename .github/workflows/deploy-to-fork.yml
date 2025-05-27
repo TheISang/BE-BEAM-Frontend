@@ -2,7 +2,7 @@ name: Deploy to Fork on Main Merge
 
 on:
   push:
-    branches: [main] # 조직 레포의 main
+    branches: [main] # 조직 레포의 main 브랜치에 push될 때 작동
 
 jobs:
   deploy-to-vercel-fork:
@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0 # 전체 히스토리 필요
+          fetch-depth: 0 # 전체 커밋 히스토리를 가져옴 (충돌 방지용)
 
       - name: Push to fork main branch
         env:
