@@ -1,0 +1,27 @@
+name: Deploy to Fork on Main Merge
+
+on:
+  push:
+    branches: [main] # 조직 레포의 main
+
+jobs:
+  deploy-to-vercel-fork:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # 전체 히스토리 필요
+
+      - name: Push to fork main branch
+        env:
+          TARGET_REPO: dnjfht/BE-BEAM-Frontend
+          TARGET_BRANCH: main
+          PERSONAL_TOKEN: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          git remote add fork https://x-access-token:${PERSONAL_TOKEN}@github.com/${TARGET_REPO}.git
+          git push fork HEAD:${TARGET_BRANCH} --force
